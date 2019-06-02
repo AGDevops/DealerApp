@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav_graph"
+    app:startDestination="@id/mainAuthFragment">
+
+    <fragment
+        android:id="@+id/mainAuthFragment"
+        android:name="com.example.dealerapp.MainAuthFragment"
+        android:label="fragment_main_auth"
+        tools:layout="@layout/fragment_main_auth" >
+        <action
+            android:id="@+id/action_mainAuthFragment_to_createAccFragment"
+            app:destination="@id/createAccFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_mainAuthFragment_to_signInFragment"
+            app:destination="@id/signInFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccFragment"
+        android:name="com.example.dealerapp.CreateAccFragment"
+        android:label="fragment_create_acc"
+        tools:layout="@layout/fragment_create_acc" >
+        <action
+            android:id="@+id/action_createAccFragment_to_setUpProfileActivity"
+            app:destination="@id/setUpProfileActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.dealerapp.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+    <fragment
+        android:id="@+id/setUpProfileActivity"
+        android:name="com.example.dealerapp.SetUpProfileActivity"
+        android:label="fragment_set_up_profile"
+        tools:layout="@layout/fragment_set_up_profile" >
+        <action
+            android:id="@+id/action_setUpProfileActivity_to_ownerStartInfoFrag"
+            app:destination="@id/ownerStartInfoFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/ownerStartInfoFrag"
+        android:name="com.example.dealerapp.OwnerStartInfoFrag"
+        android:label="fragment_owner_start_info"
+        tools:layout="@layout/fragment_owner_start_info" />
+</navigation>
