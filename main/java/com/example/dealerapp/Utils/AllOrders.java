@@ -1,15 +1,19 @@
 package com.example.dealerapp.Utils;
 
+import com.github.mikephil.charting.data.Entry;
+
 public class AllOrders {
 
-    private String x_point, y_point;
+    private String x_point;
+    private String y_point;
+
+    public AllOrders(){
+
+    }
 
     public AllOrders(String x_point, String y_point) {
         this.x_point = x_point;
         this.y_point = y_point;
-    }
-    public AllOrders(){
-
     }
 
     public String getX_point() {

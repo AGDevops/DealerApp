@@ -2,6 +2,7 @@ package com.example.dealerapp;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -91,26 +92,31 @@ public class CreateAccFragment extends Fragment {
         return view;
     }
 
-    private void creatingAccount(String email, String pass, final String user_name, final View view) {
+    private void creatingAccount(final String email, String pass, final String user_name, final View view) {
         mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
 
+                    currentUserId = mAuth.getCurrentUser().getUid();
+
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("user_name", user_name);
                     hashMap.put("profile_pic", "default");
-                    hashMap.put("type", "who you are?");
+                    hashMap.put("user_email", email);
+                    hashMap.put("type", "Who are you?");
+                    hashMap.put("uId", currentUserId);
 
-                    currentUserId = mAuth.getCurrentUser().getUid();
+
 
                     db.collection("Users").document(currentUserId).set(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
                                 dialog.dismiss();
-                                Navigation.findNavController(view).navigate(R.id.action_createAccFragment_to_setUpProfileActivity);
-
+                                Intent intent = new Intent(getActivity(), SetProfileActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                             }else {
                                 dialog.hide();
                                 Toast.makeText(getActivity(), "something is wrong please try again", Toast.LENGTH_SHORT).show();

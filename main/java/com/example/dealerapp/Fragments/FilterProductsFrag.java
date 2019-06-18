@@ -59,12 +59,12 @@ public class FilterProductsFrag extends Fragment {
         adapter = new AllItemsListAdapter(getContext(), options);
         allItemsList.setAdapter(adapter);
 
-        adapter.setOnItemClick(new AllItemsListAdapter.OnItemClick() {
-            @Override
-            public void getPosition(int id, String userId) {
-                startActivity(new Intent(getActivity(), AddItemActivity.class));
-            }
-        });
+//        adapter.setOnItemClick(new AllItemsListAdapter.OnItemClick() {
+//            @Override
+//            public void getPosition(int id, String userId) {
+//                startActivity(new Intent(getActivity(), AddItemActivity.class));
+//            }
+//        });
 
 
         return view;

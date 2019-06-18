@@ -5,16 +5,19 @@ public class ALlItems {
     private String item_image;
     private String item_brand;
     private String item_name;
-    private String item_price;
-    private String item_mrp;
+    private long item_price;
+    private long item_mrp;
     private String item_desc;
-    private String item_discount;
-    private String item_quantity;
+    private long item_discount;
+    private long item_quantity;
     private String item_category;
+    private String uid;
+    private String item_id;
 
     public ALlItems(String item_image, String item_brand, String item_name,
-                    String item_price, String item_mrp, String item_desc,
-                    String item_discount, String item_quantity, String item_category) {
+                    long item_price, long item_mrp, String item_desc,
+                    long item_discount, long item_quantity, String item_category,
+                    String uid, String item_id){
         this.item_image = item_image;
         this.item_brand = item_brand;
         this.item_name = item_name;
@@ -24,10 +27,28 @@ public class ALlItems {
         this.item_discount = item_discount;
         this.item_quantity = item_quantity;
         this.item_category = item_category;
+        this.uid = uid;
+        this.item_id = item_id;
     }
 
     public ALlItems(){
 
+    }
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getItem_image() {
@@ -54,22 +75,6 @@ public class ALlItems {
         this.item_name = item_name;
     }
 
-    public String getItem_price() {
-        return item_price;
-    }
-
-    public void setItem_price(String item_price) {
-        this.item_price = item_price;
-    }
-
-    public String getItem_mrp() {
-        return item_mrp;
-    }
-
-    public void setItem_mrp(String item_mrp) {
-        this.item_mrp = item_mrp;
-    }
-
     public String getItem_desc() {
         return item_desc;
     }
@@ -78,19 +83,35 @@ public class ALlItems {
         this.item_desc = item_desc;
     }
 
-    public String getItem_discount() {
+    public long getItem_price() {
+        return item_price;
+    }
+
+    public void setItem_price(long item_price) {
+        this.item_price = item_price;
+    }
+
+    public long getItem_mrp() {
+        return item_mrp;
+    }
+
+    public void setItem_mrp(long item_mrp) {
+        this.item_mrp = item_mrp;
+    }
+
+    public long getItem_discount() {
         return item_discount;
     }
 
-    public void setItem_discount(String item_discount) {
+    public void setItem_discount(long item_discount) {
         this.item_discount = item_discount;
     }
 
-    public String getItem_quantity() {
+    public long getItem_quantity() {
         return item_quantity;
     }
 
-    public void setItem_quantity(String item_quantity) {
+    public void setItem_quantity(long item_quantity) {
         this.item_quantity = item_quantity;
     }
 

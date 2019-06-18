@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +18,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.dealerapp.Fragments.ALlProductsFrag;
-import com.example.dealerapp.Fragments.FilterProductsFrag;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +46,7 @@ import javax.annotation.Nullable;
 
 import id.zelory.compressor.Compressor;
 
-public class AddItemActivity extends AppCompatActivity {
+public class EditProductActivity extends AppCompatActivity {
 
     public static final int SELECT_PHOTO = 1;
 
@@ -62,36 +59,27 @@ public class AddItemActivity extends AppCompatActivity {
     private ImageView itemImage;
     private TextInputEditText itemName, itemBrand, itemDescription, itemPrice, itemMRP, itemQuantity;
     private Button selectImage, publishBtn;
-    private String pushId;
+    String pushId;
     private Spinner spinner;
     private String filter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
+        setContentView(R.layout.activity_edit_product);
 
         pushId = getIntent().getStringExtra("push_id");
         dialog = new ProgressDialog(this);
 
         Toolbar toolbar = findViewById(R.id.add_item_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Add Item");
+        getSupportActionBar().setTitle("Edit Item");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                db.collection("AllItems").document(pushId).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-
-                        }
-                    }
-                });
             }
         });
 
@@ -117,6 +105,33 @@ public class AddItemActivity extends AppCompatActivity {
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
                 photoPickerIntent.setType("image/*");
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+            }
+        });
+
+        db.collection("AllItems").document(pushId).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (documentSnapshot.exists()){
+                    String image = documentSnapshot.get("item_image").toString();
+                    String id = documentSnapshot.get("item_id").toString();
+                    String name = documentSnapshot.get("item_name").toString();
+                    String brand = documentSnapshot.get("item_brand").toString();
+                    String description = documentSnapshot.get("item_desc").toString();
+                    String mrp = documentSnapshot.getLong("item_mrp").toString();
+                    String discount = documentSnapshot.getLong("item_discount").toString();
+                    String quantity = documentSnapshot.getLong("item_quantity").toString();
+                    String price = documentSnapshot.getLong("item_price").toString();
+
+                    Picasso picasso =Picasso.get();
+                    picasso.setIndicatorsEnabled(false);
+                    picasso.load(image).placeholder(R.drawable.default_image).into(itemImage);
+                    itemBrand.setText(brand);
+                    itemDescription.setText(description);
+                    itemName.setText(name);
+                    itemMRP.setText(mrp);
+                    itemPrice.setText(price);
+                    itemQuantity.setText(quantity);
+                }
             }
         });
 
@@ -148,10 +163,12 @@ public class AddItemActivity extends AppCompatActivity {
                     long mrpp = Long.parseLong(mrp);
                     long dis = discount_per;
 
+                    String discount = String.valueOf(discount_per);
+
                     updateItem(name, description, brand, pri, mrpp, pushId, dis, qua);
 
                 }else {
-                    Toast.makeText(AddItemActivity.this, "please fill all the details", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProductActivity.this, "please fill all the details", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -187,7 +204,7 @@ public class AddItemActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 filter = parent.getSelectedItem().toString();
                 if (parent.getItemAtPosition(position).equals("Select Category")){
-                    Toast.makeText(AddItemActivity.this, "select category", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProductActivity.this, "select category", Toast.LENGTH_SHORT).show();
                 }else {
                     db.collection("Categories").addSnapshotListener(new EventListener<QuerySnapshot>() {
                         @Override
@@ -198,14 +215,14 @@ public class AddItemActivity extends AppCompatActivity {
                                     HashMap<String, Object> map = new HashMap();
                                     map.put("item_category", filter);
 
-                                  db.collection("AllItems").document(pushId).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                      @Override
-                                      public void onComplete(@NonNull Task<Void> task) {
-                                          if (task.isSuccessful()){
-                                              Toast.makeText(AddItemActivity.this, "category selected", Toast.LENGTH_SHORT).show();
-                                          }
-                                      }
-                                  });
+                                    db.collection("AllItems").document(pushId).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()){
+                                                Toast.makeText(EditProductActivity.this, "category selected", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                                 }
                             }
                         }
@@ -224,7 +241,6 @@ public class AddItemActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        db.collection("AllItems").document(pushId).delete();
     }
 
     @Override
@@ -282,7 +298,7 @@ public class AddItemActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Object o) {
                                             dialog.dismiss();
-                                            Toast.makeText(AddItemActivity.this, "profile updated", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EditProductActivity.this, "profile updated", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -325,12 +341,12 @@ public class AddItemActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     dialog.dismiss();
-                    Toast.makeText(AddItemActivity.this, "item added successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddItemActivity.this, MainActivity.class));
+                    Toast.makeText(EditProductActivity.this, "item added successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(EditProductActivity.this, MainActivity.class));
                     finish();
                 }else {
                     dialog.hide();
-                    Toast.makeText(AddItemActivity.this, "something is wrong please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditProductActivity.this, "something is wrong please try again", Toast.LENGTH_SHORT).show();
                 }
             }
         });

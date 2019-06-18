@@ -8,13 +8,17 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.dealerapp.AddItemActivity;
 import com.example.dealerapp.AllItemsActivity;
 import com.example.dealerapp.AllItemsListAdapter;
+import com.example.dealerapp.EditProductActivity;
 import com.example.dealerapp.R;
 import com.example.dealerapp.Utils.ALlItems;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -60,17 +64,19 @@ public class ALlProductsFrag extends Fragment {
 
         adapter.setOnItemClick(new AllItemsListAdapter.OnItemClick() {
             @Override
-            public void getPosition(int id, String userId) {
-                startActivity(new Intent(getActivity(), AddItemActivity.class));
-            }
+            public void getPosition(String userId) {
+                Intent intent = new Intent(getActivity(), EditProductActivity.class);
+                intent.putExtra("push_id", userId);
+                startActivity(intent);            }
         });
 
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        adapter.startListening();
+       adapter.startListening();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.dealerapp;
 
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -11,8 +12,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 
 /**
@@ -21,7 +30,10 @@ import android.widget.Toast;
 public class BottomSheetFrag extends BottomSheetDialogFragment {
 
 
-    private RelativeLayout companyOwner, dealer, seller;
+    private RelativeLayout companyOwner, dealer;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private ProgressDialog dialog;
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
@@ -79,31 +91,65 @@ public class BottomSheetFrag extends BottomSheetDialogFragment {
 
         companyOwner = view.findViewById(R.id.company_owner_relative);
         dealer = view.findViewById(R.id.dealer_relative);
-        seller = view.findViewById(R.id.seller_relative);
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        final String currentUser = mAuth.getCurrentUser().getUid();
+        dialog = new ProgressDialog(getActivity());
 
         companyOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "companyOwner", Toast.LENGTH_SHORT).show();
-                dismiss();
+                dialog.setMessage("please wait");
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("type", "Owner");
+                db.collection("Users").document(currentUser).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getActivity(), "selected", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            dismiss();
+                        }else {
+                            dialog.hide();
+                            Toast.makeText(getActivity(), "error in selecting type please try again", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
             }
         });
 
         dealer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "dealer", Toast.LENGTH_SHORT).show();
-                dismiss();
+                dialog.setMessage("please wait");
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("type", "Dealer");
+                db.collection("Users").document(currentUser).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Toast.makeText(getActivity(), "selected", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            dismiss();
+                        }else {
+                            dialog.hide();
+                            Toast.makeText(getActivity(), "error in selecting type please try again", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
             }
         });
 
-        seller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "seller", Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-        });
+
+
         return view;
     }
 }
