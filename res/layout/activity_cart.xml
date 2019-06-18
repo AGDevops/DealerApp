@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Dealers.CartActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_linear"
+        android:background="@color/lightGray"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="40dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:cardCornerRadius="10dp">
+
+            <com.example.dealerapp.Dealers.MyTextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="ERP"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp" />
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
+        <com.example.dealerapp.Dealers.MyTextView
+            android:id="@+id/totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading..."
+            android:textSize="22sp"
+            android:layout_gravity="center"
+            style="@style/TextAppearance.AppCompat.Title"
+            />
+
+        <Button
+            android:id="@+id/orderButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/create_acc_btn_back"
+            android:gravity="center"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="ORDER"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</RelativeLayout>

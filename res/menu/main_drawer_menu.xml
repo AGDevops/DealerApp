@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/Administration">
+        <item
+            android:id="@+id/profile_item"
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="Profile" />
+
+        <item
+            android:id="@+id/dashboard_item"
+            android:icon="@drawable/avatar"
+            android:title="Dashboard" />
+
+        <item
+            android:id="@+id/setting_item"
+            android:icon="@drawable/avatar"
+            android:title="Setting" />
+    </group>
+
+    <group android:id="@+id/OrderDetails">
+
+        <item
+            android:id="@+id/dealer_item"
+            android:icon="@drawable/ic_group_work_black_24dp"
+            android:title="All Dealers" />
+
+        <item
+            android:id="@+id/all_orders_item"
+            android:icon="@drawable/avatar"
+            android:title="ALl Orders" />
+        <item
+            android:id="@+id/coupons_item"
+            android:icon="@drawable/ic_work_black_24dp"
+            android:title="Coupons" />
+        <item
+            android:id="@+id/seller_item"
+            android:icon="@drawable/ic_group_work_black_24dp"
+            android:title="Sellers" />
+
+        <item
+            android:id="@+id/location_item"
+            android:icon="@drawable/avatar"
+            android:title="Location" />
+
+    </group>
+
+    <group android:id="@+id/addingItems">
+
+        <item
+            android:id="@+id/add_item"
+            android:icon="@drawable/avatar"
+            android:title="Add Item" />
+        <item
+            android:id="@+id/remove_item"
+            android:icon="@drawable/avatar"
+            android:title="Remove Item" />
+        <item
+            android:id="@+id/all_items"
+            android:icon="@drawable/avatar"
+            android:title="All Item" />
+    </group>
+
+    <group android:id="@+id/logOut">
+        <item
+            android:id="@+id/logout_item"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="Logout"/>
+    </group>
+
+</menu>
